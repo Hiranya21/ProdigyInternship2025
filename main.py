@@ -1,23 +1,28 @@
+# ==== IMPORT LIBRARIES ====
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-# Load dataset
-df = pd.read_csv("Metadata_Country_API_SP.POP.TOTL_DS2_en_csv_v2_38144.csv")
+# ==== LOAD DATA ====
+df = pd.read_csv("population_sample.csv")
 
-# Count countries per income group
-income_counts = df['IncomeGroup'].value_counts().dropna()
+# Show first few rows
+df.head()
 
-# Convert to DataFrame (table used for histogram)
-hist_data = income_counts.reset_index()
-hist_data.columns = ['Income Group', 'Number of Countries']
+# ==== BAR CHART: Distribution of Genders ====
+plt.figure(figsize=(8,5))
+sns.countplot(x="Gender", data=df, palette="Set2")
+plt.title("Gender Distribution")
+plt.xlabel("Gender")
+plt.ylabel("Count")
+plt.savefig("gender_bar_chart.png")
+plt.show()
 
-# Save data table
-hist_data.to_csv("histogram_data.csv", index=False)
-
-# Create histogram
-plt.hist(hist_data['Number of Countries'], bins=5)
-plt.xlabel("Number of Countries")
+# ==== HISTOGRAM: Distribution of Ages ====
+plt.figure(figsize=(8,5))
+plt.hist(df["Age"], bins=10, color="skyblue", edgecolor="black")
+plt.title("Age Distribution")
+plt.xlabel("Age")
 plt.ylabel("Frequency")
-plt.title("Histogram of Countries by Income Group")
-plt.savefig("income_group_histogram.png")
+plt.savefig("age_histogram.png")
 plt.show()
